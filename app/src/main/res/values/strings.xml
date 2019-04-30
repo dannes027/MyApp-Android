@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">AREA_Prueba</string>
+    <string name="correo">Correo</string>
+    <string name="pass">Contraseña</string>
+    <string name="confirm_pass">Confirma tu contraseña</string>
+    <string name="recordar">Recuerdame</string>
+    <string name="recuperar_pass">Olvide mi contraseña</string>
+    <string name="entrar">Entrar</string>
+    <string name="registrar">Registrar</string>
 </resources>
