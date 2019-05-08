@@ -4,12 +4,14 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.provider.ContactsContract;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,12 +25,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.example.area_prueba.auth.RegistroActivity;
 import com.example.area_prueba.profile.UserProfileActivity;
+import com.example.area_prueba.storage.SharedPrefManager;
 import com.example.area_prueba.volley.VolleySingleton;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
     private String appURL;
     private String EMAIL, PASSWORD;
     private EditText mEmail;
@@ -111,9 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(String response) {
                     if (response.equals("true")){
-                        Intent intent = new Intent(mContext, UserProfileActivity.class);
+                        Intent intent = new Intent(mContext, DashboardActivity.class);
                         //Pasar el valor del correo
-                        intent.putExtra("email", EMAIL);
+                        //intent.putExtra("email", EMAIL);
+                        SharedPrefManager sharedPrefManager = new SharedPrefManager();
+                        sharedPrefManager.saveEmail(getApplicationContext(), EMAIL);
+                        Log.d(TAG, "Email saved" + EMAIL);
                         startActivity(intent);
                     }else {
                         AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
