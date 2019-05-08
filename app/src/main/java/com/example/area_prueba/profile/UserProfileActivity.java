@@ -1,18 +1,11 @@
-package com.example.area_prueba;
+package com.example.area_prueba.profile;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.provider.ContactsContract;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -21,58 +14,41 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.example.area_prueba.auth.RegistroActivity;
-import com.example.area_prueba.profile.UserProfileActivity;
+import com.example.area_prueba.R;
 import com.example.area_prueba.volley.VolleySingleton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
-    private String appURL;
-    private String EMAIL, PASSWORD;
-    private EditText mEmail;
-    private EditText mPassword;
-    private Button btn_entrar;
-    private TextView registrarse;
-
+public class UserProfileActivity extends AppCompatActivity {
+    private String ID, NAME, EMAIL, CREATED_DATE;
     Activity mContext = this;
+    private String appURL;
+    private TextView mId, mName, mEmail, mDate;
 
-    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_profile);
 
-        mEmail = (EditText) findViewById(R.id.campo_correo);
-        mPassword = (EditText) findViewById(R.id.campo_contra);
-        registrarse = (TextView) findViewById(R.id.txt_registrar);
+        mId = findViewById(R.id.txt_Id);
+        mName = findViewById(R.id.txt_Name);
+        mEmail = findViewById(R.id.txt_Correo);
+        mDate = findViewById(R.id.txt_Created);
 
-        registrarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegistroActivity.class);
-                startActivity(intent);
-            }
-        });
+        Intent data = getIntent();
+        EMAIL = data.getStringExtra("email");
+        appURL = "http://192.168.0.108/api/getUserDetail.php?email="+EMAIL;
 
-        btn_entrar = (Button) findViewById(R.id.btn_entrar);
-
-        btn_entrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logIn();
-            }
-        });
-
-        appURL = "http://192.168.0.108/api/logIn.php";
+        getUserDetail();
     }
 
-    private void logIn(){
-        EMAIL = mEmail.getText().toString();
-        PASSWORD = mPassword.getText().toString();
+    private void getUserDetail() {
 
-        if (EMAIL.isEmpty()){
+        if (EMAIL.isEmpty()) {
             AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
             alert.setMessage("Campo correo vacio.");
             alert.setCancelable(false);
@@ -83,49 +59,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             alert.show();
-        } else if (PASSWORD.isEmpty()){
-            AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-            alert.setMessage("Campo contraseña vacio.");
-            alert.setCancelable(false);
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            alert.show();
-        }
-        else if (PASSWORD.length() < 5){
-            AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-            alert.setMessage("La contraseña debe tener mas de 5 caracteres.");
-            alert.setCancelable(false);
-            alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            alert.show();
-        }else {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, appURL, new Response.Listener<String>() {
+        } else {
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, appURL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    if (response.equals("true")){
-                        Intent intent = new Intent(mContext, UserProfileActivity.class);
-                        //Pasar el valor del correo
-                        intent.putExtra("email", EMAIL);
-                        startActivity(intent);
-                    }else {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(mContext);
-                        alert.setMessage(response);
-                        alert.setCancelable(false);
-                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.show();
+                    try {
+                        JSONObject jsonObject = new JSONObject(response);
+                        ID = jsonObject.getString("id");
+                        NAME = jsonObject.getString("name");
+                        EMAIL = jsonObject.getString("email");
+                        CREATED_DATE = jsonObject.getString("created_date");
+
+                        mId.setText(ID);
+                        mName.setText(NAME);
+                        mEmail.setText(EMAIL);
+                        mDate.setText(CREATED_DATE);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -134,8 +85,8 @@ public class MainActivity extends AppCompatActivity {
 
                     AlertDialog.Builder alert;
                     NetworkResponse response = error.networkResponse;
-                    if (response != null && response.data != null){
-                        switch (response.statusCode){
+                    if (response != null && response.data != null) {
+                        switch (response.statusCode) {
 
                             case 400:
                                 alert = new AlertDialog.Builder(mContext);
@@ -177,8 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                 alert.show();
                                 break;
                         }
-                    }
-                    else{
+                    } else {
                         alert = new AlertDialog.Builder(mContext);
                         alert.setTitle("Error");
                         alert.setMessage(error.toString());
@@ -192,20 +142,11 @@ public class MainActivity extends AppCompatActivity {
                         alert.show();
                     }
                 }
-            }){
+            }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String,String> params = new HashMap<>();
-                    params.put("Accept","Application/json; charset=UTF-8");
-                    return params;
-                }
-
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    HashMap<String ,String> params = new HashMap<>();
-                    params.put("email",EMAIL);
-                    params.put("password",PASSWORD);
-
+                    HashMap<String, String> params = new HashMap<>();
+                    params.put("Accept", "Application/json; charset=UTF-8");
                     return params;
                 }
             };
