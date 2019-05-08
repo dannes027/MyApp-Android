@@ -87,13 +87,13 @@
                                 app:counterTextAppearance="@style/Counter"
                                 app:hintTextAppearance="@style/Hint">
 
-                                <EditText
+                                <android.support.design.widget.TextInputEditText
                                     android:id="@+id/campo_correo"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="10"
                                     android:hint="@string/correo"
-                                    android:inputType="textWebEmailAddress"
+                                    android:inputType="textEmailAddress"
                                     android:singleLine="true" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
@@ -124,14 +124,13 @@
                                 app:hintTextAppearance="@style/Hint"
                                 app:passwordToggleEnabled="true">
 
-                                <EditText
+                                <android.support.design.widget.TextInputEditText
                                     android:id="@+id/campo_contra"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:ems="10"
                                     android:hint="@string/pass"
                                     android:inputType="textPassword"
-                                    android:password="true"
                                     android:singleLine="true" />
                             </android.support.design.widget.TextInputLayout>
                         </LinearLayout>
@@ -161,6 +160,22 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:text="@string/recuperar_pass"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp"
+                    android:textStyle="italic" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txt_registrar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="@string/registrar"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="14dp"
                     android:textStyle="italic" />

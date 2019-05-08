@@ -7,34 +7,20 @@
     android:background="@color/colorPrimary"
     tools:context=".auth.RegistroActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="113dp"
-        android:layout_height="91dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
-
     <LinearLayout
-        android:id="@+id/Linear_Correo"
+        android:id="@+id/Linear_Nombre"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
+        app:layout_constraintTop_toTopOf="parent">
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -51,10 +37,50 @@
             app:hintTextAppearance="@style/Regist">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/campo_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nombre"
+                android:inputType="textPersonName"
+                android:textColorHint="@color/colorBackground" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Linear_Correo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Linear_Nombre">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:counterEnabled="true"
+            app:counterMaxLength="35"
+            app:counterOverflowTextAppearance="@style/Regist"
+            app:counterTextAppearance="@style/Regist"
+            app:hintTextAppearance="@style/Regist">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/campo_correo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/correo"
-                android:inputType="textWebEmailAddress"
+                android:inputType="textEmailAddress"
                 android:textColorHint="@color/colorBackground" />
         </android.support.design.widget.TextInputLayout>
 
@@ -92,6 +118,7 @@
             app:passwordToggleTint="@color/colorBackground">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/campo_contraseña"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/pass"
@@ -132,6 +159,7 @@
             app:passwordToggleTint="@color/colorBackground">
 
             <android.support.design.widget.TextInputEditText
+                android:id="@+id/campo_confirmContra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/confirm_pass"
@@ -139,6 +167,23 @@
                 android:textColorHint="@color/colorBackground" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Iniciar sesiòn"
+        android:textColor="@color/colorBackground"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Linear_ConfirmPass" />
 
     <Button
         android:id="@+id/btn_registro"
@@ -151,7 +196,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Linear_ConfirmPass"
-        app:layout_constraintVertical_bias="0.419" />
-
+        app:layout_constraintTop_toBottomOf="@+id/txt_login" />
 </android.support.constraint.ConstraintLayout>
